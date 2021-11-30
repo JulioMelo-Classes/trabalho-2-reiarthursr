@@ -1,5 +1,7 @@
 #ifndef SISTEMA_H
 #define SISTEMA_H
+#include "Usuario.hpp"
+#include "Servidor.hpp"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -8,6 +10,33 @@
 
 // Sistema deve concentrar todas as operações do Concordo
 class Sistema {
+	private:
+		/**
+		 * @brief Um vetor contendo referências para todos os usuários criados usando o comando create-user
+		 * 
+		 */
+		std::vector<Usuario*> usuarios;
+
+		/**
+		 * @brief Um vetor com todos os servidores criados usando o comando create-server
+		 * 
+		 */
+		std::vector<Servidor> servidores;
+
+		/**
+		 * @brief Uma tabela que mapeia os usuários logados atualmente no sistema em um par com dois inteiros contendo
+		 * os IDs do servidor e do canal de texto que o usuário está visualizando atualmente.
+		 * Quando um usuário muda/sai de um servidor ou de canal, esta tabela deve ser atualizada para
+		 * refletir essa mudança.
+		 * Quando um usuário logado sai do Concordo (com o comando disconnect) ele deve ser removido desta tabela.
+		 * Esta tabela reflete exatamente qual o Canal e Servidor atual que estão sendo visualizados pelo usuário.
+		 * Quando um usuário não está visualizando um canal o segundo campo deve ser 0;
+		 * quando não está visualizando um Servidor os dois campos devem 0
+		 * (pois um usuário só pode visualizar um canal que está dentro de um servidor que ele esteja visualizando).
+		 * 
+		 */
+		std::map< int, pair<unsigned int, unsigned int> > usuariosLogados;
+
   	public:
 
 		/*! Encerra o funcionamento do Concordo, o programa termina ao executar este comando.
