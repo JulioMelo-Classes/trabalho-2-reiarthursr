@@ -5,18 +5,26 @@
 
 using namespace std;
 
-#include "Sistema.h"
+#include "Sistema.hpp"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 
 /* COMANDOS */
 string Sistema::quit() {
-  return "Saindo...";
+  return "Finalizando o Concordo";
 }
 
 string Sistema::create_user (const string email, const string senha, const string nome) {
-	return "create_user NÃO IMPLEMENTADO";
+	//procurando se o usuário já existe
+	for (auto it = usuarios.begin(); it != usuarios.end(); it++)
+		if(email == (*it)->get_email())
+			return "Usuário já existe!";
+
+	//criando novo usuário (caso não exista)
+	usuarios.push_back(new Usuario(proxId, nome, email, senha));
+	
+	return "Usuário criado";
 }
 
 std::string Sistema::delete_user (const std::string email, const std::string senha){
@@ -91,3 +99,9 @@ string Sistema::list_messages(int id) {
 	return "list_messages NÃO IMPLEMENTADO";
 }
 
+Sistema::~Sistema()
+{
+	//desalocando todos os usuários
+	for (auto it = usuarios.begin(); it != usuarios.end(); it++)
+		delete *it; //desalocando usuário
+}

@@ -3,6 +3,7 @@
 #include "Usuario.hpp"
 #include "Mensagem.hpp"
 #include <string>
+#include <vector>
 
 // Canal de Texto
 class CanalTexto {

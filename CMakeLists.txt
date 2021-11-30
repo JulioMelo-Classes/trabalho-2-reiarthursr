@@ -11,10 +11,9 @@ add_executable( concordo
                 src/Concordo.cpp
                 src/Sistema.cpp 
 				src/Executor.cpp
-                #src/Usuario.cpp
-                #src/Mensagem.cpp
-                #src/CanalTexto.cpp
-                #src/Servidor.cpp
-                )
+                src/Usuario.cpp
+                src/Mensagem.cpp
+                src/CanalTexto.cpp
+                src/Servidor.cpp)
 
 # The end

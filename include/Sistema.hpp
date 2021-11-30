@@ -35,7 +35,15 @@ class Sistema {
 		 * (pois um usuário só pode visualizar um canal que está dentro de um servidor que ele esteja visualizando).
 		 * 
 		 */
-		std::map< int, pair<unsigned int, unsigned int> > usuariosLogados;
+		std::map< int, std::pair<unsigned int, unsigned int> > usuariosLogados;
+
+		/**
+		 * @brief Armazena qual será o ID do próximo usuário a ser criado.
+		 * É somado em 1 toda vez que um usuário novo é criado (após a variável ser utilizada neste usuário).
+		 * É necessário para garantir IDs de usuários únicos.
+		 * 
+		 */
+		unsigned int proxId = 1;
 
   	public:
 
@@ -210,6 +218,13 @@ class Sistema {
 				@return uma string vazia em caso de sucesso ou uma mensagem de erro em caso de falha.
 		*/
 		std::string list_messages(int id);
+
+		/**
+		 * @brief Destroy the Sistema object
+		 * Desaloca todos os usuários.
+		 * 
+		 */
+		~Sistema();
 };
 
 #endif

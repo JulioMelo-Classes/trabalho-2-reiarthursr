@@ -3,9 +3,10 @@
 #include "Usuario.hpp"
 #include "CanalTexto.hpp"
 #include <string>
+#include <vector>
 
 // Canal de Texto
-class CanalTexto {
+class Servidor {
   private:
     /**
      * @brief Um identificador único para o este servidor
