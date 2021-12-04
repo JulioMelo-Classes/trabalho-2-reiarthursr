@@ -32,6 +32,20 @@ class Mensagem {
     std::string conteudo;
 
   public:
+  /**
+   * @brief Get the enviadaPor object
+   * 
+   * @return Usuario* enviadaPor
+   */
+  Usuario* get_enviadaPor();
+
+  /**
+   * @brief Set the enviadaPor object
+   * Serve para deixar o Usuário anônimo após ser deletado.
+   * 
+   * @param enviadaPor Usuário que enviou a mensagem a ser setado.
+   */
+  void set_enviadaPor(Usuario* enviadaPor);
 
 };
 

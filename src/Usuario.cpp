@@ -2,6 +2,11 @@
 
 using namespace std;
 
+unsigned int Usuario::get_id()
+{
+    return id;
+}
+
 Usuario::Usuario(unsigned int id, string nome, string email, string senha)
 {
     this->id = id;
@@ -13,4 +18,9 @@ Usuario::Usuario(unsigned int id, string nome, string email, string senha)
 string Usuario::get_email()
 {
     return email;
+}
+
+std::string Usuario::get_senha()
+{
+    return senha;
 }

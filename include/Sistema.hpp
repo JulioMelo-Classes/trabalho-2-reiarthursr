@@ -45,6 +45,13 @@ class Sistema {
 		 */
 		unsigned int proxId = 1;
 
+		/**
+		 * @brief Armazena os IDs dos usuários deletados. Serão usados para criar usuários novos.
+		 * Tem prioridade em relação a "proxId".
+		 * 
+		 */
+		std::vector<unsigned int> idsUsuDel;
+
   	public:
 
 		/*! Encerra o funcionamento do Concordo, o programa termina ao executar este comando.
@@ -220,8 +227,15 @@ class Sistema {
 		std::string list_messages(int id);
 
 		/**
+		 * @brief Construct a new Sistema object
+		 * Adiciona "Usuário deletado" com ID 0 no vetor "usuarios".
+		 * 
+		 */
+		Sistema();
+
+		/**
 		 * @brief Destroy the Sistema object
-		 * Desaloca todos os usuários.
+		 * Desaloca todos os usuários. Dessa forma, mensagens de usuários deletados manteram anonimato.
 		 * 
 		 */
 		~Sistema();

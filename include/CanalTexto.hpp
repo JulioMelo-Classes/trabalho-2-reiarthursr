@@ -33,6 +33,27 @@ class CanalTexto {
     std::vector<Mensagem> mensagens;
 
   public:
+  /**
+   * @brief Get the dono object
+   * 
+   * @return Usuario* dono
+   */
+  Usuario* get_dono();
+
+  /**
+   * @brief Set the dono object
+   * Serve para deixar o Usuário anônimo após ser deletado.
+   * 
+   * @param dono O dono a ser setado para o canal.
+   */
+  void set_dono(Usuario* dono);
+
+  /**
+   * @brief Get the mensagens object
+   * 
+   * @return std::vector<Mensagem>* mensagens (apenas uma referência para o vetor "mensagens")
+   */
+  std::vector<Mensagem>* get_mensagens();
 
 };
 

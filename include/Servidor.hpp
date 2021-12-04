@@ -53,6 +53,34 @@ class Servidor {
     std::vector<Usuario*> participantes;
 
   public:
+    /**
+     * @brief Get the dono object
+     * 
+     * @return Usuario* dono
+     */
+    Usuario* get_dono();
+
+    /**
+     * @brief Set the dono object
+     * Serve para deixar o Usuário anônimo após ser deletado.
+     * 
+     * @param dono O dono a ser setado para o servidor.
+     */
+    void set_dono(Usuario* dono);
+
+    /**
+     * @brief Get the nome object
+     * 
+     * @return std::string nome
+     */
+    std::string get_nome();
+
+    /**
+     * @brief Get the canaisTexto object
+     * 
+     * @return std::vector<CanalTexto>* canaisTexto (apenas a referência do vetor "canaisTexto")
+     */
+    std::vector<CanalTexto>* get_canaisTexto();
 
 };
 
