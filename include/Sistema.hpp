@@ -43,14 +43,16 @@ class Sistema {
 		 * É necessário para garantir IDs de usuários únicos.
 		 * 
 		 */
-		unsigned int proxId = 1;
+		unsigned int proxIdUsu = 1;
 
 		/**
 		 * @brief Armazena os IDs dos usuários deletados. Serão usados para criar usuários novos.
-		 * Tem prioridade em relação a "proxId".
+		 * Tem prioridade em relação a "proxIdUsu".
 		 * 
 		 */
 		std::vector<unsigned int> idsUsuDel;
+
+		unsigned int proxIdSer = 1;
 
   	public:
 

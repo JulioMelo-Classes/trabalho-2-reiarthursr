@@ -29,8 +29,8 @@ string Sistema::create_user (const string email, const string senha, const strin
 	}
 	else //criando usuário com ID novo
 	{
-		usuarios.push_back(new Usuario(proxId, nome, email, senha));
-		proxId++;
+		usuarios.push_back(new Usuario(proxIdUsu, nome, email, senha));
+		proxIdUsu++;
 	}
 	
 	return "Usuário criado";
@@ -101,38 +101,120 @@ string Sistema::login(const string email, const string senha) {
 }
 
 string Sistema::disconnect(int id) {
-	if(usuariosLogados.count(id)) //se o usuário estivar logado
-	{
-		usuariosLogados.erase(id); //removendo do mapa (deslogando)
+	//se o usuário não estivar logado
+	if(!usuariosLogados.count(id)) return "Não está conectado";
+	
+	usuariosLogados.erase(id); //removendo do mapa (deslogando)
 
-		for (auto& iUsu: usuarios)
-			if(iUsu->get_id() == id)
-				return "Desconectando usuário "+iUsu->get_email();
-		
-	}
+	for (auto& iUsu: usuarios)
+		if(iUsu->get_id() == id)
+			return "Desconectando usuário "+iUsu->get_email();
 
-	//se não estiver logado
-	return "Não está conectado";
+	return "Erro ao desconectar";
 }
 
 string Sistema::create_server(int id, const string nome) {
-	return "create_server NÃO IMPLEMENTADO";
+	//se o usuário não estivar logado
+	if(!usuariosLogados.count(id)) return "Não está conectado";
+
+	//se o servidor já existir
+	for (auto& iSer: servidores)
+		if(iSer.get_nome() == nome) return "Servidor com esse nome já existe";
+	
+	//criando servidor (e adicionando na lista de servidores)
+	for (auto& iUsu: usuarios) //procurando usuário pelo ID
+		if(iUsu->get_id() == id)
+		{
+			servidores.push_back(Servidor(proxIdSer, iUsu, nome));
+
+			proxIdSer++; //aumentando proxIdSer após ser usado
+
+			return "Servidor criado";
+		}
+	
+	return "Erro ao criar servidor";
 }
 
 string Sistema::set_server_desc(int id, const string nome, const string descricao) {
-	return "set_server_desc NÃO IMPLEMENTADO";
+	//se o usuário não estivar logado
+	if(!usuariosLogados.count(id)) return "Não está conectado";
+
+	for (auto& iSer: servidores) //procurando servidor pelo nome
+		if(iSer.get_nome() == nome)
+		{
+			if(iSer.get_dono()->get_id() != id) //verificar se o usuário é dono
+				return "Você não pode alterar a descrição de um servidor que não foi criado por você";
+
+			iSer.set_descricao(descricao); //setando descrição ao servidor
+
+			return "Descrição do servidor ‘"+nome+"’ modificada!";
+		}
+	
+	return "Servidor ‘"+nome+"’ não existe";
 }
 
 string Sistema::set_server_invite_code(int id, const string nome, const string codigo) {
-	return "set_server_invite_code NÃO IMPLEMENTADO";
+	//se o usuário não estivar logado
+	if(!usuariosLogados.count(id)) return "Não está conectado";
+
+	for (auto& iSer: servidores) //procurando servidor pelo nome
+		if(iSer.get_nome() == nome)
+		{
+			if(iSer.get_dono()->get_id() != id) //verificar se o usuário é dono
+				return "Você não pode alterar o código de convite de um servidor que não foi criado por você";
+
+			iSer.set_descricao(codigo); //setando descrição ao servidor
+
+			if(codigo == "") //se o código for removido
+				return "Código de convite do servidor '"+nome+"' removido!";
+			return "Código de convite do servidor '"+nome+"' modificada!";
+		}
+	
+	return "Servidor '"+nome+"' não existe";
 }
 
 string Sistema::list_servers(int id) {
-	return "list_servers NÃO IMPLEMENTADO";
+	//se o usuário não estivar logado
+	if(!usuariosLogados.count(id)) return "Não está conectado";
+
+	string retorno; //a lista dos servers a ser retornado
+
+	//armazenando os nomes dos servidores na variável "retorno"
+	for (size_t i = 0; i < servidores.size(); i++)
+	{
+		if(i>0) //adicionando quebra de linha
+			retorno += '\n';
+		
+		retorno += servidores[i].get_nome(); //adicionando nome do servidor
+	}
+	
+	return retorno;
 }
 
 string Sistema::remove_server(int id, const string nome) {
-	return "remove_server NÃO IMPLEMENTADO";
+	//se o usuário não estivar logado
+	if(!usuariosLogados.count(id)) return "Não está conectado";
+
+	for (auto iSer = servidores.begin(); iSer != servidores.end(); iSer++) //procurando servidor pelo nome
+		if(iSer->get_nome() == nome)
+		{
+			if(iSer->get_dono()->get_id() != id) //verificar se o usuário é dono
+				return "Você não é o dono do servidor ‘"+nome+"’";
+
+			//fazer usuários não visualizarem o servidor
+			for (auto& iULog: usuariosLogados)
+				if(iULog.second.first == iSer->get_id()) //se o usuário estiver visualizando o servidor
+				{
+					iULog.second.first = 0; //parar de visualizar servidor
+					iULog.second.second = 0; //parar de visualizar canal
+				}
+
+			servidores.erase(iSer); //removendo servidor
+
+			return "Servidor ‘"+nome+"’ removido";
+		}
+
+	return "Servidor ‘"+nome+"’ não encontrado";
 }
 
 string Sistema::enter_server(int id, const string nome, const string codigo) {
@@ -140,7 +222,6 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 }
 
 string Sistema::leave_server(int id, const string nome) {
-	//usar leave_channel em todos os canais desse server (remover o usuário de todos os canais)
 	return "leave_server NÃO IMPLEMENTADO";
 }
 
