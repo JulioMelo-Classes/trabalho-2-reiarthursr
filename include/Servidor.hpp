@@ -106,11 +106,39 @@ class Servidor {
     void set_codigoConvite(std::string codigo);
 
     /**
+     * @brief Get the codigoConvite object
+     * 
+     * @return string codigoConvite
+     */
+    std::string get_codigoConvite();
+
+    /**
      * @brief Get the canaisTexto object
      * 
      * @return std::vector<CanalTexto>* canaisTexto (apenas a referência do vetor "canaisTexto")
      */
     std::vector<CanalTexto>* get_canaisTexto();
+
+    /**
+     * @brief Adiciona um usuário aos participantes do servidor.
+     * 
+     * @param usuario Usuario a ser adicionado no vetor de participantes.
+     */
+    void add_participantes(Usuario* usuario);
+
+    /**
+     * @brief Remove um usuário dos participantes do servidor.
+     * 
+     * @param usuario Usuário a ser removido do vertor de participantes.
+     */
+    void rem_participante(Usuario* usuario);
+
+    /**
+     * @brief Lista todos os participantes, um em cada linha.
+     * 
+     * @return string com todos os participantes do servidor, um por linha.
+     */
+    std::string list_participantes();
 
 };
 

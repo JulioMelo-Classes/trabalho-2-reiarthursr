@@ -14,6 +14,11 @@ unsigned int Usuario::get_id()
     return id;
 }
 
+string Usuario::get_nome()
+{
+    return nome;
+}
+
 string Usuario::get_email()
 {
     return email;

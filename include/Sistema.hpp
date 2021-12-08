@@ -52,6 +52,12 @@ class Sistema {
 		 */
 		std::vector<unsigned int> idsUsuDel;
 
+		/**
+		 * @brief Armazena qual será o ID do próximo serviddor a ser criado.
+		 * É somado em 1 toda vez que um usuário novo é criado (após a variável ser utilizada neste vervidor).
+		 * É necessário para garantir IDs de servidores únicos.
+		 * 
+		 */
 		unsigned int proxIdSer = 1;
 
   	public:

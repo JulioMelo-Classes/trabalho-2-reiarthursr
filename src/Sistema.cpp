@@ -218,15 +218,67 @@ string Sistema::remove_server(int id, const string nome) {
 }
 
 string Sistema::enter_server(int id, const string nome, const string codigo) {
-	return "enter_server NÃO IMPLEMENTADO";
+	//se o usuário não estivar logado
+	if(!usuariosLogados.count(id)) return "Não está conectado";
+
+	for (auto& iSer: servidores) //encontrando servidor pelo nome
+		if(iSer.get_nome() == nome)
+		{
+			//verificar código de convite e se o usuário é o dono
+			if(codigo != iSer.get_codigoConvite() && codigo != "" && id != iSer.get_dono()->get_id())
+				return "Servidor requer código de convite";
+
+			//encontrar usuário pelo ID
+			for (auto& iUsu: usuarios)
+				if(iUsu->get_id() == id)
+				{
+					iSer.add_participantes(iUsu); //adicionando aos participantes
+
+					//fazer o usuário visualizar o servidor
+					for (auto& iULog: usuariosLogados)
+						if(iULog.first == iUsu->get_id()) //procurando usuário pelo ID
+							iULog.second.first = iSer.get_id(); //fazer visualizar servidor
+				}
+
+			return "Entrou no servidor com sucesso";
+		}
+
+	return "Servidor não encontrado";
 }
 
 string Sistema::leave_server(int id, const string nome) {
-	return "leave_server NÃO IMPLEMENTADO";
+	/*for (auto& iSer: servidores) //procurando servidor pelo nome
+		if(iSer.get_nome() == nome)
+			for (auto& iULog: usuariosLogados) //se o usuário não estivar conectado ao servidor
+				if(iULog.first == id) //procurando usuário logado pelo ID
+				{
+					if(iULog.second.first == iSer.get_id()) //se o usuário está no servidor
+					{
+						//fazendo o usuário não visualizar mais
+						iULog.second.first = 0;
+						iULog.second.second = 0;
+						
+						for (auto& iUsu: usuarios) //procurando usuário pelo ID
+							if(iUsu->get_id() == id)
+								iSer.rem_participante(iUsu); //removendo usuário do servidor
+						
+						return "Saindo do servidor ‘"+nome+"’";
+					}
+					else //se não estiver
+						return "Não está conectado no servidor";
+				}*/
+
+	return "Servidor não encontrado";
 }
 
 string Sistema::list_participants(int id) {
-	return "list_participants NÃO IMPLEMENTADO";
+	for (auto& iULog: usuariosLogados) //procurando usuário logado pelo ID
+		if(iULog.first == id)
+			for (auto& iSer: servidores) //procurando servidores pelo ID
+				if(iSer.get_id() == iULog.second.first)
+					return iSer.list_participantes(); //retornando lista de participantes
+	
+	return "Não está conectado a um servidor";
 }
 
 string Sistema::list_channels(int id) {
