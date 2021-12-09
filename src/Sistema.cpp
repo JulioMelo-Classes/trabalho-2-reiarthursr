@@ -247,7 +247,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 }
 
 string Sistema::leave_server(int id, const string nome) {
-	/*for (auto& iSer: servidores) //procurando servidor pelo nome
+	for (auto& iSer: servidores) //procurando servidor pelo nome
 		if(iSer.get_nome() == nome)
 			for (auto& iULog: usuariosLogados) //se o usuário não estivar conectado ao servidor
 				if(iULog.first == id) //procurando usuário logado pelo ID
@@ -260,13 +260,16 @@ string Sistema::leave_server(int id, const string nome) {
 						
 						for (auto& iUsu: usuarios) //procurando usuário pelo ID
 							if(iUsu->get_id() == id)
+							{
 								iSer.rem_participante(iUsu); //removendo usuário do servidor
+								break;
+							}
 						
 						return "Saindo do servidor ‘"+nome+"’";
 					}
 					else //se não estiver
 						return "Não está conectado no servidor";
-				}*/
+				}
 
 	return "Servidor não encontrado";
 }

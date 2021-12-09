@@ -66,7 +66,10 @@ void Servidor::rem_participante(Usuario* usuario)
     //procurando usuário pelo ID
     for (auto itPar = participantes.begin(); itPar != participantes.end(); itPar++)
         if((*itPar)->get_id() == usuario->get_id())
+        {
             participantes.erase(itPar); //removendo usuário
+            break;
+        }
 }
 
 string Servidor::list_participantes()
