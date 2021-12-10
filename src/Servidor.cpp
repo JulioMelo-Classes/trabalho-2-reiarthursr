@@ -86,3 +86,34 @@ string Servidor::list_participantes()
 
     return lista;
 }
+
+string Servidor::list_canaisTexto()
+{
+    string lista = "#canais de texto\n"; //lista que contem todos os canais de texto
+    
+    for (size_t i = 0; i < canaisTexto.size(); i++)
+    {
+		if(i>0) //adicionando quebra de linha
+			lista += '\n';
+		
+		lista += canaisTexto[i].get_nome(); //adicionando nome do canal de texto
+	}
+
+    return lista;
+}
+
+unsigned int Servidor::prox_id_canal()
+{
+    proxIdCan++;
+
+    return proxIdCan;
+}
+
+bool Servidor::canal_existe(string nome)
+{
+    for (auto& iCan: canaisTexto)
+        if(iCan.get_nome() == nome)
+            return true;
+    
+    return false;
+}

@@ -285,11 +285,37 @@ string Sistema::list_participants(int id) {
 }
 
 string Sistema::list_channels(int id) {
-	return "list_channels NÃO IMPLEMENTADO";
+	for (auto& iULog: usuariosLogados) //procurando usuário logado pelo ID
+		if(iULog.first == id)
+			for (auto& iSer: servidores) //procurando servidores pelo ID
+				if(iSer.get_id() == iULog.second.first)
+					return iSer.list_canaisTexto(); //retornando lista de canais de texto
+
+	return "Não está conectado a um servidor";
 }
 
 string Sistema::create_channel(int id, const string nome) {
-	return "create_channel NÃO IMPLEMENTADO";
+	for (auto& iULog: usuariosLogados) //procurando usuário logado pelo ID
+		if(iULog.first == id)
+			for (auto& iSer: servidores) //procurando servidores pelo ID
+				if(iSer.get_id() == iULog.second.first)
+				{
+					//verificando se canal já existe
+					if(iSer.canal_existe(nome))
+						return "Canal de texto ‘"+nome+"’ já existe!";
+
+					//criando canal
+					for (auto& iUsu: usuarios)
+						if(iUsu->get_id() == id) //procurando usuário pelo ID
+						{
+							//criando canal e adicionando ao servidor
+							iSer.get_canaisTexto()->push_back(CanalTexto(iSer.prox_id_canal(), nome, iUsu));
+							
+							return "Canal de texto ‘"+nome+"’ criado";
+						}
+				}
+
+	return "Não está conectado a um servidor";
 }
 
 string Sistema::remove_channel(int id, const string nome) {

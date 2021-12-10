@@ -34,6 +34,22 @@ class CanalTexto {
 
   public:
   /**
+   * @brief Construct a new Canal Texto object
+   * 
+   * @param id ID a ser setada para o canal.
+   * @param nome Nome a ser setado para o canal
+   * @param dono Dono do canal a ser setado.
+   */
+  CanalTexto(unsigned int id, std::string nome, Usuario* dono);
+
+  /**
+   * @brief Get the nome object
+   * 
+   * @return std::string nome do canal.
+   */
+  std::string get_nome();
+
+  /**
    * @brief Get the dono object
    * 
    * @return Usuario* dono
@@ -54,7 +70,6 @@ class CanalTexto {
    * @return std::vector<Mensagem>* mensagens (apenas uma referência para o vetor "mensagens")
    */
   std::vector<Mensagem>* get_mensagens();
-
 };
 
 #endif

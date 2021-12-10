@@ -52,6 +52,13 @@ class Servidor {
      */
     std::vector<Usuario*> participantes;
 
+    /**
+     * @brief ID do próximo canal a ser criado. Aumenta em 1 a cada canal criado.
+     * Usa-se a função "prox_id_canal" para retornar o próximo ID para umc anal novo.
+     * 
+     */
+    unsigned int proxIdCan = 0;
+
   public:
     /**
      * @brief Construct a new Servidor object
@@ -140,6 +147,28 @@ class Servidor {
      */
     std::string list_participantes();
 
+    /**
+     * @brief Lista o nome de todos os canais de texto do servidor, um em cada linha.
+     * 
+     * @return std::string com o nome de todos os canais, um por linha.
+     */
+    std::string list_canaisTexto();
+
+    /**
+     * @brief Usado quando criar um canal novo, para retornar um novo ID para ele.
+     * 
+     * @return unsigned int ID do próximo canal a ser criado
+     */
+    unsigned int prox_id_canal();
+
+    /**
+     * @brief Verifica se o canal já existe, baseado no nome.
+     * 
+     * @param nome Nome do canal a ser verificado.
+     * @return true Caso já existir.
+     * @return false Caso não existir.
+     */
+    bool canal_existe(std::string nome);
 };
 
 #endif

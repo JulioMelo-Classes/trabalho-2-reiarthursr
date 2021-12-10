@@ -2,6 +2,18 @@
 
 using namespace std;
 
+CanalTexto::CanalTexto(unsigned int id, std::string nome, Usuario* dono)
+{
+    this->id = id;
+    this->nome = nome;
+    this->dono = dono;
+}
+
+string CanalTexto::get_nome()
+{
+    return nome;
+}
+
 Usuario* CanalTexto::get_dono()
 {
     return dono;

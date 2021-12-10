@@ -1,0 +1,6 @@
+create-user julio.melo@imd.ufrn.br 12ab34cd Julio Melo
+login julio.melo@imd.ufrn.br 12ab34cd
+create-server 1 minha-casa
+enter-server 1 minha-casa
+create-channel 1 casa-de-mae-joana 
+list-channels 1
