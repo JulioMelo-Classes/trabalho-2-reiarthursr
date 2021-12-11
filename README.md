@@ -1,8 +1,6 @@
-# Base para a atividade 02 de LP1
+# Atividade 02 de LP1
 
-Use esse esqueleto de classes para iniciar a terceira atividade.
-
-Existe um executor que faz a interpretação dos comandos e executa o método correto do sistema.
+Aluno: Arthur Soares Ramalho
 
 ## Para compilar
 
@@ -29,7 +27,7 @@ cd build
 ./concordo
 ```
 
-Ou pode criar um arquivo de texto com uma lista de comandos (um por linha) e executar o sistema redirecionando esse arquivo como entrada padrão:
+## Executar testes
 ```console
 cd build
 ./concordo < ../data/script_comandos.txt

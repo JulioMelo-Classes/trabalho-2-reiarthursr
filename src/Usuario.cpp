@@ -4,7 +4,10 @@ using namespace std;
 Usuario::Usuario(unsigned int id, string nome, string email, string senha)
 {
     this->id = id;
+
+    nome.erase(nome.size()-1); //removendo caracter bugado
     this->nome = nome;
+
     this->email = email;
     this->senha = senha;
 }

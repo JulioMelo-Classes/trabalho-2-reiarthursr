@@ -33,11 +33,35 @@ class Mensagem {
 
   public:
   /**
+   * @brief Construct a new Mensagem object
+   * 
+   * @param id ID da mensagem a ser setado.
+   * @param dataHora Data/hora da mensagem a ser setado.
+   * @param enviadaPor Usuário que enviou a mensagem.
+   * @param conteudo Conteúdo da mensagem.
+   */
+  Mensagem(unsigned int id, std::string dataHora, Usuario* enviadaPor, std::string conteudo);
+
+  /**
+   * @brief Get the dataHora object
+   * 
+   * @return std::string Data/hora do envio da mensagem.
+   */
+  std::string get_dataHora();
+
+  /**
    * @brief Get the enviadaPor object
    * 
    * @return Usuario* enviadaPor
    */
   Usuario* get_enviadaPor();
+
+  /**
+   * @brief Get the conteudo object
+   * 
+   * @return std::string Conteúdo da mensagem.
+   */
+  std::string get_conteudo();
 
   /**
    * @brief Set the enviadaPor object

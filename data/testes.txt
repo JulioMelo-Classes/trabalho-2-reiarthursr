@@ -3,4 +3,7 @@ login julio.melo@imd.ufrn.br 12ab34cd
 create-server 1 minha-casa
 enter-server 1 minha-casa
 create-channel 1 casa-de-mae-joana 
-list-channels 1
+enter-channel 1 casa-de-mae-joana
+send-message 1 Oi pessoal querem TC?
+send-message 1 miojo é bom!!
+list-messages 1

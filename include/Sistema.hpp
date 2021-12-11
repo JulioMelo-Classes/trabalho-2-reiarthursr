@@ -235,6 +235,13 @@ class Sistema {
 		std::string list_messages(int id);
 
 		/**
+		 * @brief Retorna data e hora no formato de mensagem.
+		 * 
+		 * @return std::string Com data e hora no formato de mensagem.
+		 */
+		std::string get_dataHora();
+
+		/**
 		 * @brief Construct a new Sistema object
 		 * Adiciona "Usuário deletado" com ID 0 no vetor "usuarios".
 		 * 

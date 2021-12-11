@@ -54,7 +54,7 @@ class Servidor {
 
     /**
      * @brief ID do próximo canal a ser criado. Aumenta em 1 a cada canal criado.
-     * Usa-se a função "prox_id_canal" para retornar o próximo ID para umc anal novo.
+     * Usa-se a função "prox_id_canal" para retornar o próximo ID para um canal novo.
      * 
      */
     unsigned int proxIdCan = 0;
@@ -169,6 +169,16 @@ class Servidor {
      * @return false Caso não existir.
      */
     bool canal_existe(std::string nome);
+
+    /**
+     * @brief Deleta um canal deste servidor, baseado no nome enviado. apenas deleta caso o ID for do dono do canal.
+     * 
+     * @param id ID de quem está querendo deletar o canal.
+     * @param nome Nome do canal a ser deletado.
+     * @return int Retorna o ID do canal caso o canal tenha sido deletado.
+     * Retorna 0 caso contrário (se não for dono) ou -1 (se não encontrar o canal)
+     */
+    int del_canaisTexto(int id, std::string nome);
 };
 
 #endif

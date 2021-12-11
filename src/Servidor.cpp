@@ -117,3 +117,19 @@ bool Servidor::canal_existe(string nome)
     
     return false;
 }
+
+int Servidor::del_canaisTexto(int id, std::string nome)
+{
+    for(auto iCan = canaisTexto.begin(); iCan != canaisTexto.end(); iCan++) //procurando canal pelo nome
+        if(iCan->get_nome() == nome)
+        {
+            if(iCan->get_dono()->get_id() != id && dono->get_id() != id) //verificando se é dono
+                return 0; //quando não for o dono
+
+            int retorno = iCan->get_id(); //armazenando o ID do canal para retorna-lo
+            canaisTexto.erase(iCan); //deletando canal
+            return retorno; //retornando o ID do canal
+        }
+    
+    return -1; //quando não encontrar o canal
+}

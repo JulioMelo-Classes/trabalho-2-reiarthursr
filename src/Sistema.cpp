@@ -2,13 +2,9 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <ctime>
 
 using namespace std;
-
-#include "Sistema.hpp"
-#include <iostream>
-#include <sstream>
-#include <algorithm>
 
 /* COMANDOS */
 string Sistema::quit() {
@@ -319,23 +315,114 @@ string Sistema::create_channel(int id, const string nome) {
 }
 
 string Sistema::remove_channel(int id, const string nome) {
-	return "remove_channel NÃO IMPLEMENTADO";
+	for (auto& iULog: usuariosLogados) //procurando usuário logado pelo ID
+		if(iULog.first == id)
+			for (auto& iSer: servidores) //procurando servidores pelo ID
+				if(iSer.get_id() == iULog.second.first)
+				{
+					//tentando deletar o canal, armazenando seu ID caso seja deletado,
+					//0 se não for dono e 1 se não encontrar
+					int idCan = iSer.del_canaisTexto(id, nome);
+
+					if(!idCan) //caso não tenha sido deletado (não é o dono)
+						return "Você não é dono do canal e nem do servidor";
+					if(idCan == -1) //caso não encontre o canal
+						return "Canal de texto ‘"+nome+"’ não existe!";
+
+					//fazendo usuários pararem de visualizar o canal
+					for (auto& jULog: usuariosLogados)
+						if(jULog.second.second == idCan)
+							jULog.second.second = 0; //fazendo usuário não visualizar nenhum canal
+
+					return "Canal de texto ‘"+nome+"’ deletado";
+				}
+
+
+	return "Não está conectado a um servidor";
 }
 
 string Sistema::enter_channel(int id, const string nome) {
-	return "enter_channel NÃO IMPLEMENTADO";
+	for (auto& iULog: usuariosLogados) //procurando usuário logado pelo ID
+		if(iULog.first == id)
+			for (auto& iSer: servidores) //procurando servidores pelo ID
+				if(iSer.get_id() == iULog.second.first)
+				{
+					for (auto& iCan: *iSer.get_canaisTexto()) //procurando canal pelo nome
+						if(iCan.get_nome() == nome)
+						{
+							iULog.second.second = iCan.get_id(); //entrando no canal
+							return "Entrou no canal ‘"+nome+"’";
+						}
+					
+					return "Canal ‘"+nome+"’ não existe"; //caso não encontre o canal
+				}
+
+	return "Não está conectado a um servidor";
 }
 
 string Sistema::leave_channel(int id) {
-	return "leave_channel NÃO IMPLEMENTADO";
+	for (auto& iULog: usuariosLogados) //procurando usuário logado pelo ID
+		if(iULog.first == id)
+		{
+			iULog.second.second = 0; //saindo do canal
+			return "Saindo do canal";
+		}
+
+	return "Não está conectado";
 }
 
 string Sistema::send_message(int id, const string mensagem) {
-	return "send_message NÃO IMPLEMENTADO";
+	for (auto& iULog: usuariosLogados) //procurando usuário logado pelo ID
+		if(iULog.first == id)
+			for (auto& iSer: servidores) //procurando servidores pelo ID
+				if(iSer.get_id() == iULog.second.first)
+					for (auto& iCan: *iSer.get_canaisTexto()) //procurando canal pelo ID
+						if(iCan.get_id() == iULog.second.second)
+						{
+							//criando data/hora. EX: <08/03/2021 - 11:53>
+							string dataHora = get_dataHora();
+
+							for(auto& iUsu: usuarios) //procurando usuárioo pelo ID
+								if(iUsu->get_id() == id)
+									iCan.get_mensagens()->push_back(Mensagem(iCan.prox_id_mensagem(), dataHora,
+									iUsu, mensagem)); //armazenando mensagem no canal
+
+							return "Mensagem enviada";
+						}
+
+	return "Não está conectado ao sistema, a um servidor, ou a um canal";
 }
 
 string Sistema::list_messages(int id) {
-	return "list_messages NÃO IMPLEMENTADO";
+	for (auto& iULog: usuariosLogados) //procurando usuário logado pelo ID
+		if(iULog.first == id)
+			for (auto& iSer: servidores) //procurando servidores pelo ID
+				if(iSer.get_id() == iULog.second.first)
+					for (auto& iCan: *iSer.get_canaisTexto()) //procurando canal pelo ID
+						if(iCan.get_id() == iULog.second.second)
+							return iCan.exibir_mensagens(); //retornar todas as mensagens (ou erro)
+
+	return "Não está conectado ao sistema, a um servidor, ou a um canal";
+}
+
+string Sistema::get_dataHora()
+{
+	time_t ttime = time(0);
+	tm *local_time = localtime(&ttime);
+
+	string dataHora = "<";
+
+	if(local_time->tm_mday < 10) dataHora += "0";
+	dataHora += to_string(local_time->tm_mday)+"/";
+	if(local_time->tm_mon+1 < 10) dataHora += "0";
+	dataHora += to_string(local_time->tm_mon+1)+"/";
+	dataHora += to_string(1900 + local_time->tm_year)+" - ";
+	if(local_time->tm_hour < 10) dataHora += "0";
+	dataHora += to_string(local_time->tm_hour)+":";
+	if(local_time->tm_min < 10) dataHora += "0";
+	dataHora += to_string(local_time->tm_min)+">";
+
+	return dataHora;
 }
 
 Sistema::Sistema()
